@@ -9,25 +9,16 @@ public class Shooting : MonoBehaviour
     private int ammoRight;
     private int ammoLeft;
     private GameObject player;
-    public GameObject mainTank;
     public GameObject actuator_left;
     public GameObject actuator_right;
     private GameObject weaponRight;
     private GameObject weaponLeft;
     private Weapon scriptRight;
     private Weapon scriptLeft;
-    private bool hasWeaponRight;
-    private bool hasWeaponLeft;
+    [SerializeField] private bool hasWeaponRight;
+    [SerializeField] private bool hasWeaponLeft;
     private int triggerNum;
     private Collider2D coll;
-    public float spritePos;
-    public GameObject ammoPip;
-    public Sprite fullAmmo;
-    public Sprite emptyAmmo;
-    private List<GameObject> ammoSprites;
-    public int maxSpriteSpace;
-    public int distanceBetweenSprites;
-    public GameObject canvas;
     private List<GameObject> triggerList;
 
     // Start is called before the first frame update
@@ -38,7 +29,6 @@ public class Shooting : MonoBehaviour
         ammoLeft = 0;
         hasWeaponRight = false;
         hasWeaponLeft = false;
-        ammoSprites = new List<GameObject>();
         triggerNum = 0;
         triggerList = new List<GameObject>();
     }
@@ -46,14 +36,16 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && ammoLeft > 0 && hasWeaponLeft) {
-            scriptLeft.fire();
+        if(Input.GetMouseButton(0) && hasWeaponLeft && scriptLeft.CanFire() == true) {
+            Debug.Log("Fired left");
+            StartCoroutine(scriptLeft.Fire());
             ammoLeft--;
         //    ammoSprites[ammoLeft].GetComponent<Image>().sprite = emptyAmmo;
             //Debug.Log(ammoLeft);
         }
-        if(Input.GetMouseButtonDown(1) && ammoRight > 0 && hasWeaponRight) {
-            scriptRight.fire();
+        if(Input.GetMouseButtonDown(1) && hasWeaponRight && scriptRight.CanFire() == true) {
+            Debug.Log("Fired right");
+            StartCoroutine(scriptRight.Fire());
             ammoRight--;
         //    ammoSprites[ammoRight].GetComponent<Image>().sprite = emptyAmmo;
             //Debug.Log(ammoRight);
@@ -62,18 +54,10 @@ public class Shooting : MonoBehaviour
         if(Input.GetButtonDown("Reload")) {
 
             if(hasWeaponRight) {
-                ammoRight = scriptRight.getAmmo();
-                //Debug.Log(ammoRight + " RIGHT");
-               /* for(int i = 0; i < scriptRight.getAmmo(); i++) {
-                    ammoSprites[i].GetComponent<Image>().sprite = fullAmmo;
-                } */
+                StartCoroutine(scriptRight.Reload());
             }
             if(hasWeaponLeft) {
-                ammoLeft = scriptLeft.getAmmo();
-                //Debug.Log(ammoLeft + " LEFT");
-               /* for(int i = 0; i < scriptLeft.getAmmo(); i++) {
-                    ammoSprites[i].GetComponent<Image>().sprite = fullAmmo;
-                } */
+                StartCoroutine(scriptLeft.Reload());
             }
             
         }

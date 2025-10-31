@@ -9,7 +9,6 @@ public class RevolverScript : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        gun = gameObject;
         equipped = false;
     }
 
@@ -19,19 +18,8 @@ public class RevolverScript : Weapon
         
     }
 
-    public override void fire() {
-        Instantiate(projectile, gun.transform.position, gun.transform.rotation);
+    public override IEnumerator Fire() {
+        yield break;
     }
-   /* public override void positionAtRight() {
-        gun.transform.position = mainTank.transform.position;
-        gun.transform.rotation = mainTank.transform.rotation;
-        gun.transform.localPosition = new Vector3 (x, (float)0.2, 0);
-    } 
-    
-    public override void positionAtLeft() {
-        gun.transform.position = mainTank.transform.position;
-        gun.transform.rotation = mainTank.transform.rotation;
-        gun.transform.localPosition = new Vector3 (-x, y, 0);
-    } */
 }
 

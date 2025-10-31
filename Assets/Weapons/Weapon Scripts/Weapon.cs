@@ -1,27 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
 
-    public GameObject gun;
     public GameObject projectile;
-    public int ammo;
+    public List<GameObject> bullets;
+
+    public float fireRate;
+    public Vector2 firePoint;
+    public float reloadRate;
+    public int ammoAddedOnSingleReloadAmount;
+    private int ammo;
+    public int maxAmmo;
     public bool equipped;
-    public GameObject player;
-    public GameObject mainTank;
-    public Sprite ground;
-    public Sprite attached_right;
-    public Sprite attached_left;
     public float x;
     public float y;
     public bool right_side;
 
+    public bool firing;
+    public bool reloading;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        firing = false;
     }
 
     // Update is called once per frame
@@ -30,47 +35,50 @@ public class Weapon : MonoBehaviour
         
     }
 
-    public virtual void fire() {
-        
+    public virtual IEnumerator Fire() {
+        yield break;
+    }
+
+    public IEnumerator Reload() {
+        reloading = true;
+        Debug.Log("Reloading");
+        while(ammo != maxAmmo) {
+            ammo += ammoAddedOnSingleReloadAmount;
+            for(float i = 0; i < reloadRate; i += Time.deltaTime) {
+                if(firing) {
+                    reloading = false;
+                    Debug.Log("Interrupted reloading");
+                    yield break;
+                }
+                yield return null;
+            }
+        }
+        yield break;
+    }
+
+    public bool CanFire() {
+        return !firing && ammo > 0;
     }
 
     public int getAmmo() {
         return ammo;
     }
 
-    public virtual void positionAtRight() {
-        Debug.Log("RIGHT");
-    } 
-
-    public virtual void positionAtLeft() {
-        Debug.Log("LEFT");
-    }
-
-    public bool isEquipped() {
-        return equipped;
-    }
-
     public void setEquipped(bool helper) {
         equipped = helper;
     } 
 
-    public GameObject getProjectile() {
-        return projectile;
-    }
-
     public void attach(bool rightorleft, GameObject actuator) {
         if(rightorleft) {
-            gun.transform.position = actuator.transform.position;
-            gun.transform.rotation = actuator.transform.rotation;
-            gun.transform.localPosition = new Vector3 (x, y, 0);
-            gun.GetComponent<SpriteRenderer>().sprite = attached_right;
+            transform.position = actuator.transform.position;
+            transform.rotation = actuator.transform.rotation;
+            transform.localPosition = new Vector3 (x, y, 0);
             actuator.GetComponent<Arm_Actuator_Script>().attach(true);
             right_side = true;
         } else {
-            gun.transform.position = actuator.transform.position;
-            gun.transform.rotation = actuator.transform.rotation;
-            gun.transform.localPosition = new Vector3 (-x, y, 0);
-            gun.GetComponent<SpriteRenderer>().sprite = attached_left;
+            transform.position = actuator.transform.position;
+            transform.rotation = actuator.transform.rotation;
+            transform.localPosition = new Vector3 (-x, y, 0);
             actuator.GetComponent<Arm_Actuator_Script>().attach(true);
             right_side = false;
         } 
@@ -78,7 +86,6 @@ public class Weapon : MonoBehaviour
     }
 
     public void detach(GameObject actuator) {
-        gun.GetComponent<SpriteRenderer>().sprite = ground;
         actuator.GetComponent<Arm_Actuator_Script>().attach(false);
     }
 

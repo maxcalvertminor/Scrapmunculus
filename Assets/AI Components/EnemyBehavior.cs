@@ -23,7 +23,7 @@ public class EnemyBehavior : MonoBehaviour
     public int bulletsInCollider;
     public int raycastsInCollider;
 
-    public List<Behavior> attackBehaviors, roamBehaviors;
+    public List<Behavior> attackBehaviors, roamBehaviors, searchBehaviors;
 
     public float targetSpeed, fraction, dashSpeed, walkSpeed, dashCooldownTime, dashStartTimer, turnSpeed;
     private float speed, nSpeed, dashCooldown, dashTimer;
@@ -35,7 +35,7 @@ public class EnemyBehavior : MonoBehaviour
     public float dps, dashVariation;
     public Queue<DamageEvent> damageEvents;
 
-    public Vector2 roamPoint;
+    public Vector2 roamPoint, targetLastKnownPosition;
 
     public float targetHeadDirection, tiltSpeed;
     private VisionCone visionCone;
@@ -43,11 +43,15 @@ public class EnemyBehavior : MonoBehaviour
     public List<string> hostileTags;
     public List<GameObject> hostileEntities;
 
+    public float searchActions, searchActionsNumber;
+    public bool searchFlag;
+
     // Start is called before the first frame update
     void Start()
     {
         attackBehaviors = new List<Behavior> { new Approach(this), new Pause(this, 2), new Retreat(this), new Strafe(this) };
         roamBehaviors = new List<Behavior> { new PickRoamPoint(this), new Roam(this), new LookAround(this), new Pause(this, 4) };
+        searchBehaviors = new List<Behavior> { new SearchLastKnownPoint(this), new LookAround(this)};
         behaviors = new List<Behavior>();
         lookAtPlayerScript = this.gameObject.GetComponent<MainTankScript_Enemy>();
         queued = false;
@@ -119,16 +123,26 @@ public class EnemyBehavior : MonoBehaviour
             foreach(GameObject possibleTarget in visionCone.visibleTargets) {
                 if(target == null) {
                     target = possibleTarget;
+                    targetLastKnownPosition = target.transform.position;
+                    searchFlag = true;
                 } else if(target.GetComponent<MultiTag>().dangerLevel < possibleTarget.GetComponent<MultiTag>().dangerLevel) {
                     target = possibleTarget;
+                    targetLastKnownPosition = target.transform.position;
+                    searchFlag = true;
                 }
             }
         } else {
             target = null;
         }
 
+        if(Vector2.Distance(transform.position, targetLastKnownPosition) < tolerance && target == null) {
+            searchFlag = false;
+        }
+
         if(target != null) {
             SwitchState(State.Attacking);
+        } else if(searchFlag == true) {
+            SwitchState(State.Searching);
         } else {
             SwitchState(State.Roaming);
         }
@@ -173,6 +187,10 @@ public class EnemyBehavior : MonoBehaviour
                     behaviors.Clear();
                     behaviors.AddRange(attackBehaviors);
                     break;
+                case State.Searching:
+                    behaviors.Clear();
+                    behaviors.AddRange(searchBehaviors);
+                    break;
             }
         }
         
@@ -201,6 +219,7 @@ public class EnemyBehavior : MonoBehaviour
         Stationary,
         Roaming,
         Attacking,
+        Searching,
         Dead
     }
 
@@ -217,7 +236,7 @@ public class EnemyBehavior : MonoBehaviour
         point = targetPos;
         if(!path.grid.NodeFromWorldPoint(targetPos).walkable) {targetPos = path.grid.NearestNode(path.grid.NodeFromWorldPoint(targetPos)).worldPosition;}
         path.Find(startPos, targetPos);
-        if(path.path.Count > stepLimit) {path.path.RemoveRange(stepLimit, path.path.Count - stepLimit);}
+        if(stepLimit > -1 && path.path.Count > stepLimit) {path.path.RemoveRange(stepLimit, path.path.Count - stepLimit);}
         //Debug.Log(path.path.Count);
         foreach(Node n in path.path) {
             if(lookInDirection) targetHeadDirection = Mathf.Atan2(n.worldPosition.y - transform.position.y, n.worldPosition.x - transform.position.x) * Mathf.Rad2Deg;

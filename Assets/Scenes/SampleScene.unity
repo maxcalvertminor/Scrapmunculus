@@ -306,23 +306,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a21cec76c39dc4da4e2e5d7c49ade9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 78290565}
   projectile: {fileID: 8006867096975576009, guid: 0eca41abfad482d45817cb7ecb197078, type: 3}
-  ammo: 3
+  bullets: []
+  fireRate: 0
+  firePoint: {x: 0, y: 0}
+  reloadRate: 0
+  ammoAddedOnSingleReloadAmount: 0
+  maxAmmo: 0
   equipped: 0
-  player: {fileID: 539530830}
-  mainTank: {fileID: 1332366404}
-  ground: {fileID: 21300000, guid: 6eadab9f1a485db4fbf78b8304bb953d, type: 3}
-  attached_right: {fileID: 21300000, guid: 6eadab9f1a485db4fbf78b8304bb953d, type: 3}
-  attached_left: {fileID: 21300000, guid: 6eadab9f1a485db4fbf78b8304bb953d, type: 3}
   x: 0.06
   y: 0
   right_side: 0
+  firing: 0
+  reloading: 0
   bulletCount: 6
   bulletVariation: 10
-  firepoint_x: 0
-  firepoint_y: 0.2
-  firepoint_z: 0
 --- !u!61 &78290569
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1185,10 +1183,14 @@ MonoBehaviour:
   dps: 0
   dashVariation: 45
   roamPoint: {x: 0, y: 0}
+  targetLastKnownPosition: {x: 0, y: 0}
   targetHeadDirection: 0
   tiltSpeed: 90
   hostileTags: []
   hostileEntities: []
+  searchActions: 0
+  searchActionsNumber: 0
+  searchFlag: 0
 --- !u!114 &430934633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,18 +1379,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5efdecf1b2d129d45b40fc003a662c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 434175893}
   projectile: {fileID: 609193012160187865, guid: b9238e29db69f3e4eab9f4b30d84c92f, type: 3}
-  ammo: 3
+  bullets: []
+  fireRate: 0
+  firePoint: {x: 0, y: 0}
+  reloadRate: 0
+  ammoAddedOnSingleReloadAmount: 0
+  maxAmmo: 0
   equipped: 0
-  player: {fileID: 539530830}
-  mainTank: {fileID: 1332366404}
-  ground: {fileID: -1295638847, guid: bc9f489f019cea44b930f23689ef8bba, type: 3}
-  attached_right: {fileID: 1823506565, guid: bc9f489f019cea44b930f23689ef8bba, type: 3}
-  attached_left: {fileID: -1996627083, guid: bc9f489f019cea44b930f23689ef8bba, type: 3}
   x: 0.035
   y: 0
   right_side: 0
+  firing: 0
+  reloading: 0
   firepoint_x: 0.04
   firepoint_y: 0.24
   firepoint_z: 0
@@ -1752,16 +1755,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 312f844576f25b84bad62095e33cecf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainTank: {fileID: 1332366404}
   actuator_left: {fileID: 91426613}
   actuator_right: {fileID: 926723594}
-  spritePos: 50
-  ammoPip: {fileID: 1146206216054612923, guid: c1279f983ad21314f851b93ca90105da, type: 3}
-  fullAmmo: {fileID: 1062717402, guid: 98e43fe7675de6b46841c95ef92d7428, type: 3}
-  emptyAmmo: {fileID: -2063729503, guid: 98e43fe7675de6b46841c95ef92d7428, type: 3}
-  maxSpriteSpace: 60
-  distanceBetweenSprites: 20
-  canvas: {fileID: 1290748776}
+  hasWeaponRight: 0
+  hasWeaponLeft: 0
 --- !u!58 &539530835
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3887,18 +3884,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55f5f73743814e84085637b89041599d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gun: {fileID: 1329550755}
   projectile: {fileID: 7983565412353122519, guid: 3d6ccb9ea8128eb468b8d6e24ce091ca, type: 3}
-  ammo: 6
+  bullets: []
+  fireRate: 0
+  firePoint: {x: 0, y: 0}
+  reloadRate: 0
+  ammoAddedOnSingleReloadAmount: 0
+  maxAmmo: 0
   equipped: 0
-  player: {fileID: 539530830}
-  mainTank: {fileID: 1332366404}
-  ground: {fileID: 0}
-  attached_right: {fileID: 0}
-  attached_left: {fileID: 0}
   x: 0
   y: 0
   right_side: 0
+  firing: 0
+  reloading: 0
 --- !u!4 &1329550757
 Transform:
   m_ObjectHideFlags: 0
@@ -5071,7 +5069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1952156329
 Transform:
   m_ObjectHideFlags: 0
@@ -5194,9 +5192,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 539530830}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: maxAmmo
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: fireRate
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: mainTank
       value: 
       objectReference: {fileID: 1332366404}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: reloadRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: ammoAddedOnSingleReloadAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -12.9

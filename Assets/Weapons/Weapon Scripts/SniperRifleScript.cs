@@ -12,7 +12,6 @@ public class SniperRifleScript : Weapon
     // Start is called before the first frame update
     void Start()
     {
-        gun = gameObject;
         equipped = false;
     }
 
@@ -22,24 +21,7 @@ public class SniperRifleScript : Weapon
         
     }
 
-    public override void fire() {
-        if(right_side) {
-            Instantiate(projectile, gun.transform.TransformPoint(firepoint_x, firepoint_y, firepoint_z), gun.transform.rotation);
-        } else {
-            Instantiate(projectile, gun.transform.TransformPoint(-firepoint_x, firepoint_y, firepoint_z), gun.transform.rotation);
-        }
-        
+    public override IEnumerator Fire() {
+        yield break;
     }
-   /* public override void positionAtRight() {
-        gun.transform.position = mainTank.transform.position;
-        gun.transform.rotation = mainTank.transform.rotation;
-        gun.transform.localPosition = new Vector3 (x, y, 0);
-        gun.GetComponent<SpriteRenderer>().sprite = 
-    } 
-
-    public override void positionAtLeft() {
-        gun.transform.position = mainTank.transform.position;
-        gun.transform.rotation = mainTank.transform.rotation;
-        gun.transform.localPosition = new Vector3 (-x, y, 0);
-    } */
 }
