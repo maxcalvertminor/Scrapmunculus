@@ -59,11 +59,11 @@ public class BasicMovement : MonoBehaviour
         mainTankHead.transform.rotation = temp;*/
 
         while(Vector3.Distance(obj.position, point) > tolerance) {
-            obj.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(x, y).normalized * speed;
+            obj.gameObject.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(x, y).normalized * speed;
             yield return null;
         }
 
-        obj.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        obj.gameObject.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         Debug.Log("Coroutine finished");
     }
 

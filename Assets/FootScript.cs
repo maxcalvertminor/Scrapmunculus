@@ -32,7 +32,7 @@ public class FootScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(main.GetComponent<Rigidbody2D>().velocity.magnitude > 0) {
+        if(main.GetComponent<Rigidbody2D>().linearVelocity.magnitude > 0) {
             moving = true;
             has_returned_home = false;
         } else {

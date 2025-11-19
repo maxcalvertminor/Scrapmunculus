@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour {
             speed = targetSpeed;
         }
 
-        body.velocity = direction * speed;
+        body.linearVelocity = direction * speed;
 
         if(Input.GetButtonDown("Dash") && dashCooldown <= 0) {
             //StartCoroutine(Cooldown_Animation(cooldown_obj.GetComponent<SpriteRenderer>()));

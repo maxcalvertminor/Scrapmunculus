@@ -29,7 +29,7 @@ public class FootScript_Multiple : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(main.GetComponent<Rigidbody2D>().velocity.magnitude > 0) {
+        if(main.GetComponent<Rigidbody2D>().linearVelocity.magnitude > 0) {
             moving = true;
         } else {
             moving = false;
@@ -88,7 +88,7 @@ public class FootScript_Multiple : MonoBehaviour
         float fraction = 0;
         while(fraction < 1) {
             fraction += step_speed * Time.deltaTime;
-            foot.transform.position = Vector3.Lerp(startPoint, main.transform.TransformPoint(targetPoint + (mainBody.velocity * constant)), fraction);
+            foot.transform.position = Vector3.Lerp(startPoint, main.transform.TransformPoint(targetPoint + (mainBody.linearVelocity * constant)), fraction);
             //Debug.Log("targetPoint: " + targetPoint);
             //Debug.Log("velocity: " + mainBody.velocity);
             //Debug.Log("full thing: " + main.transform.TransformPoint(targetPoint + (mainBody.velocity * constant)));

@@ -39,14 +39,12 @@ public class Shooting : MonoBehaviour
         if(Input.GetMouseButton(0) && hasWeaponLeft && scriptLeft.CanFire() == true) {
             Debug.Log("Fired left");
             StartCoroutine(scriptLeft.Fire());
-            ammoLeft--;
         //    ammoSprites[ammoLeft].GetComponent<Image>().sprite = emptyAmmo;
             //Debug.Log(ammoLeft);
         }
         if(Input.GetMouseButtonDown(1) && hasWeaponRight && scriptRight.CanFire() == true) {
             Debug.Log("Fired right");
             StartCoroutine(scriptRight.Fire());
-            ammoRight--;
         //    ammoSprites[ammoRight].GetComponent<Image>().sprite = emptyAmmo;
             //Debug.Log(ammoRight);
         }
@@ -62,8 +60,10 @@ public class Shooting : MonoBehaviour
             
         }
 
-        if(Input.GetButtonDown("Pickup Right")) {
-            if(hasWeaponRight == false && triggerNum > 0) {
+        if (Input.GetButtonDown("Pickup Right"))
+        {
+            if (hasWeaponRight == false && triggerNum > 0)
+            {
                 // RIGHT PICKUP
                 weaponRight = coll.gameObject;
                 weaponRight.transform.SetParent(actuator_right.transform);
@@ -73,20 +73,22 @@ public class Shooting : MonoBehaviour
                 scriptRight.attach(true, actuator_right);
                 ammoRight = scriptRight.getAmmo();
 
-               /* ammoSprites.Capacity = scriptRight.getAmmo();
-                //Debug.Log(ammoSprites.Count);
-                int space = maxSpriteSpace;
-                //if(allowedSpriteSpace / ammo > maxSpriteSpace) {space = maxSpriteSpace;}else{space = allowedSpriteSpace / ammo;}
-                float first = Screen.width / 2 - (distanceBetweenSprites * (scriptRight.getAmmo() - 1) / 2);
-                for(int i = 0; i < scriptRight.getAmmo(); i++) {
-                    //Debug.Log(i);
-                    ammoSprites.Add(Instantiate(ammoPip, player.transform.position, player.transform.rotation));
-                    ammoSprites[i].GetComponent<Image>().sprite = fullAmmo;
-                    ammoSprites[i].transform.SetParent(canvas.transform);
-                    ammoSprites[i].transform.position = new Vector3 (first + (i * distanceBetweenSprites), Screen.height / 2 + spritePos, 0);
-                } */
+                /* ammoSprites.Capacity = scriptRight.getAmmo();
+                 //Debug.Log(ammoSprites.Count);
+                 int space = maxSpriteSpace;
+                 //if(allowedSpriteSpace / ammo > maxSpriteSpace) {space = maxSpriteSpace;}else{space = allowedSpriteSpace / ammo;}
+                 float first = Screen.width / 2 - (distanceBetweenSprites * (scriptRight.getAmmo() - 1) / 2);
+                 for(int i = 0; i < scriptRight.getAmmo(); i++) {
+                     //Debug.Log(i);
+                     ammoSprites.Add(Instantiate(ammoPip, player.transform.position, player.transform.rotation));
+                     ammoSprites[i].GetComponent<Image>().sprite = fullAmmo;
+                     ammoSprites[i].transform.SetParent(canvas.transform);
+                     ammoSprites[i].transform.position = new Vector3 (first + (i * distanceBetweenSprites), Screen.height / 2 + spritePos, 0);
+                 } */
                 hasWeaponRight = true;
-            } else if(hasWeaponRight == true) {
+            }
+            else if (hasWeaponRight == true)
+            {
                 // RIGHT DROP
                 weaponRight.transform.SetParent(null);
                 weaponRight.tag = "Weapon";
@@ -95,14 +97,15 @@ public class Shooting : MonoBehaviour
                 scriptRight.detach(actuator_right);
                 ammoRight = 0;
                 hasWeaponRight = false;
-              /*  for(int i = 0; i < scriptRight.getAmmo(); i++) {
-                    Destroy(ammoSprites[scriptRight.getAmmo() - i - 1]);
-                }
-                ammoSprites.Clear();  */
+                /*  for(int i = 0; i < scriptRight.getAmmo(); i++) {
+                      Destroy(ammoSprites[scriptRight.getAmmo() - i - 1]);
+                  }
+                  ammoSprites.Clear();  */
                 weaponRight = null;
                 scriptRight = null;
             }
         }
+        
 
         if(Input.GetButtonDown("Pickup Left")) {
             if(hasWeaponLeft == false && triggerNum > 0) {

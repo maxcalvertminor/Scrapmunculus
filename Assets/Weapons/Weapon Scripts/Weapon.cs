@@ -7,18 +7,23 @@ public class Weapon : MonoBehaviour
 {
 
     public GameObject projectile;
-    public List<GameObject> bullets;
+    public List<GameObject> bulletPool;
+    protected int poolIterator;
+
+    public int range;
+    public float damage;
+    public float speed;
+    public float spread;
 
     public float fireRate;
     public Vector2 firePoint;
     public float reloadRate;
     public int ammoAddedOnSingleReloadAmount;
-    private int ammo;
+    protected int ammo;
     public int maxAmmo;
     public bool equipped;
     public float x;
     public float y;
-    public bool right_side;
 
     public bool firing;
     public bool reloading;
@@ -27,6 +32,9 @@ public class Weapon : MonoBehaviour
     void Start()
     {
         firing = false;
+        Debug.Log(ammo + " + " + maxAmmo);
+        ammo = maxAmmo;
+        Debug.Log(ammo);
     }
 
     // Update is called once per frame
@@ -42,10 +50,14 @@ public class Weapon : MonoBehaviour
     public IEnumerator Reload() {
         reloading = true;
         Debug.Log("Reloading");
-        while(ammo != maxAmmo) {
+        while (ammo != maxAmmo)
+        {
+            Debug.Log(ammo);
             ammo += ammoAddedOnSingleReloadAmount;
-            for(float i = 0; i < reloadRate; i += Time.deltaTime) {
-                if(firing) {
+            for (float i = 0; i < reloadRate; i += Time.deltaTime)
+            {
+                if (firing)
+                {
                     reloading = false;
                     Debug.Log("Interrupted reloading");
                     yield break;
@@ -53,6 +65,7 @@ public class Weapon : MonoBehaviour
                 yield return null;
             }
         }
+        reloading = false;
         yield break;
     }
 
@@ -74,13 +87,11 @@ public class Weapon : MonoBehaviour
             transform.rotation = actuator.transform.rotation;
             transform.localPosition = new Vector3 (x, y, 0);
             actuator.GetComponent<Arm_Actuator_Script>().attach(true);
-            right_side = true;
         } else {
             transform.position = actuator.transform.position;
             transform.rotation = actuator.transform.rotation;
             transform.localPosition = new Vector3 (-x, y, 0);
             actuator.GetComponent<Arm_Actuator_Script>().attach(true);
-            right_side = false;
         } 
         
     }

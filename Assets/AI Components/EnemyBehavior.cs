@@ -109,7 +109,7 @@ public class EnemyBehavior : MonoBehaviour
             speed = targetSpeed;
         }
 
-        gameObject.GetComponent<Rigidbody2D>().velocity = direction * speed;
+        gameObject.GetComponent<Rigidbody2D>().linearVelocity = direction * speed;
 
         // Head direction
         if(state == State.Attacking) {
