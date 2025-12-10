@@ -27,7 +27,7 @@ public class VisionCone : MonoBehaviour
         foreach(Collider2D collider in targetColliders) {
             Vector2 directionToTarget = collider.transform.position - transform.position;
             if(collider.GetComponent<MultiTag>() != null && collider.GetComponent<MultiTag>().HasTag("targetToGoliath") && Vector2.Angle(/*not supposed to be right*/transform.up, directionToTarget) <= sightConeAngle) {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget.normalized, sightRange, LayerMask.GetMask("Walls"));
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget.normalized, directionToTarget.magnitude, LayerMask.GetMask("Walls"));
                 if(hit.collider == null) {
                     visibleTargets.Add(collider.transform.gameObject);
                 }

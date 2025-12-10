@@ -8,8 +8,11 @@ public class EnemyBehavior : MonoBehaviour
     public float health;
     public Weapon weapon1, weapon2;
     public GameObject target, head;    
-    public MainTankScript_Enemy lookAtPlayerScript;
+    public LookAtX lookAtPlayerScript;
     public Pathfinding path;
+    public EntityWeapons entityWeapons;
+
+    public GameObject pathfindingTracking;
 
     public bool queued;
     public List<Behavior> behaviors; 
@@ -25,7 +28,7 @@ public class EnemyBehavior : MonoBehaviour
 
     public List<Behavior> attackBehaviors, roamBehaviors, searchBehaviors;
 
-    public float targetSpeed, fraction, dashSpeed, walkSpeed, dashCooldownTime, dashStartTimer, turnSpeed;
+    public float targetSpeed, fraction, dashSpeed, walkSpeed, dashCooldownTime, dashStartTimer, turnSpeed, weaponPatrolTime, weaponRotateSpeed;
     private float speed, nSpeed, dashCooldown, dashTimer;
     public Vector2 direction, targetDirection;
 
@@ -37,7 +40,8 @@ public class EnemyBehavior : MonoBehaviour
 
     public Vector2 roamPoint, targetLastKnownPosition;
 
-    public float targetHeadDirection, tiltSpeed;
+    public Vector2 targetHeadDirection;
+    public float tiltSpeed;
     private VisionCone visionCone;
 
     public List<string> hostileTags;
@@ -53,10 +57,11 @@ public class EnemyBehavior : MonoBehaviour
         roamBehaviors = new List<Behavior> { new PickRoamPoint(this), new Roam(this), new LookAround(this), new Pause(this, 4) };
         searchBehaviors = new List<Behavior> { new SearchLastKnownPoint(this), new LookAround(this)};
         behaviors = new List<Behavior>();
-        lookAtPlayerScript = this.gameObject.GetComponent<MainTankScript_Enemy>();
+        lookAtPlayerScript = this.gameObject.GetComponent<LookAtX>();
         queued = false;
         SwitchState(State.Roaming);
         InvokeRepeating("SlowUpdate", 0f, 0.2f);
+        InvokeRepeating("WeaponPatrolling", 0f, 1f);
         direction = new(0,0);
         damageEvents = new();
         visionCone = GetComponentInChildren<VisionCone>();
@@ -66,6 +71,7 @@ public class EnemyBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        pathfindingTracking.transform.position = targetLastKnownPosition;
         // Behavior Queuing
         if(!queued) {
             Behavior priority = behaviors[0];
@@ -75,8 +81,8 @@ public class EnemyBehavior : MonoBehaviour
                 }
             }
             queued = true;
-            Debug.Log(priority.CheckAction());
-            StartCoroutine(priority.Queue());
+            Debug.Log(priority.CheckAction() + ": " + priority.priority);
+            StartCoroutine(priority.Queue()); 
         }
 
         // Movement and direction
@@ -113,10 +119,9 @@ public class EnemyBehavior : MonoBehaviour
 
         // Head direction
         if(state == State.Attacking) {
-            Vector2 dir = target.transform.position - transform.position;
-            targetHeadDirection = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            targetHeadDirection = target.transform.position - transform.position;
         }
-        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, Quaternion.Euler(0, 0, targetHeadDirection - 90), tiltSpeed * Time.deltaTime);
+        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, head.transform.rotation * Quaternion.FromToRotation(head.transform.up, targetHeadDirection), tiltSpeed * Time.deltaTime);
 
         // Targeting enemies and state switching
         if(visionCone.visibleTargets.Count >= 1) {
@@ -129,6 +134,8 @@ public class EnemyBehavior : MonoBehaviour
                     target = possibleTarget;
                     targetLastKnownPosition = target.transform.position;
                     searchFlag = true;
+                } else {
+                    targetLastKnownPosition = target.transform.position;
                 }
             }
         } else {
@@ -174,6 +181,7 @@ public class EnemyBehavior : MonoBehaviour
             state = s;
             StopAllCoroutines();
             queued = false;
+            targetDirection = Vector2.zero;
             switch(state) {
                 case State.Inactive:
                     break;
@@ -210,7 +218,6 @@ public class EnemyBehavior : MonoBehaviour
         if(dps / health * 100 >= dpsThreshold && dashCooldown <= 0) {
             Dash();
         }
-        //Debug.Log(dps);
     }
 
     public enum State {
@@ -239,9 +246,10 @@ public class EnemyBehavior : MonoBehaviour
         if(stepLimit > -1 && path.path.Count > stepLimit) {path.path.RemoveRange(stepLimit, path.path.Count - stepLimit);}
         //Debug.Log(path.path.Count);
         foreach(Node n in path.path) {
-            if(lookInDirection) targetHeadDirection = Mathf.Atan2(n.worldPosition.y - transform.position.y, n.worldPosition.x - transform.position.x) * Mathf.Rad2Deg;
+            if(lookInDirection) targetHeadDirection = /*Mathf.Atan2(n.worldPosition.y - transform.position.y, n.worldPosition.x - transform.position.x) * Mathf.Rad2Deg*/ n.worldPosition - transform.position;
             yield return StartCoroutine(GoToPoint(n.worldPosition));
         }
+        //direction /= 2;
     }
 
     public IEnumerator GoToPoint(Vector3 point) {
@@ -266,5 +274,25 @@ public class EnemyBehavior : MonoBehaviour
     void OnDrawGizmos() {
         Gizmos.DrawCube(point, Vector2.one);
         Gizmos.DrawCube(roamPoint, Vector2.one * 3);
+    }
+
+    void WeaponPatrolling() {
+        float waitTime;
+
+        /*foreach(EquipPoint e in entityWeapons.equipPoints) {
+            waitTime = Random.Range(0f, weaponPatrolTime);
+            StartCoroutine(RotateWeapon(e.weapon, weaponRotateSpeed, waitTime));
+        }*/
+
+    }
+
+    public IEnumerator RotateWeapon(GameObject weapon, float speed, float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        float rotateTime = weaponPatrolTime - waitTime;
+        for(float i = 0; i < rotateTime; i += Time.deltaTime) {
+            weapon.transform.RotateAround(weapon.transform.position, new(0,0,1), speed * Time.deltaTime);
+            yield return null;
+        }
+        yield break;
     }
 }

@@ -18,8 +18,8 @@ public class LookAround : Behavior
         script.queued = true;
         int loop = Random.Range(1, 4);
         for(int i = 0; i < loop; i++) {
-            script.targetHeadDirection = Random.Range(-180, 180);
-            while(script.head.transform.rotation != Quaternion.Euler(0, 0, script.targetHeadDirection - 90)) {
+            script.targetHeadDirection += new Vector2(Random.Range(-script.targetHeadDirection.magnitude, script.targetHeadDirection.magnitude), Random.Range(-script.targetHeadDirection.magnitude, script.targetHeadDirection.magnitude));
+            while(script.head.transform.rotation != script.head.transform.rotation * Quaternion.FromToRotation(script.head.transform.up, script.targetHeadDirection)) {
                 yield return null;
             }
             yield return new WaitForSeconds(script.distance / 20 * Random.Range(1f, 3f));

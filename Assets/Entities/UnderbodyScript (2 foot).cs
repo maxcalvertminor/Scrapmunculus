@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FootScript : MonoBehaviour
+public class Underbody2Foot : MonoBehaviour
 {
     public GameObject main;
     public GameObject movement_obj;

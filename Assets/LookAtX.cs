@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class LookAtX : MonoBehaviour
 {
-    public GameObject x;
-    public float fineTuningConstant;
+    public bool active;
+    public GameObject main;
+    public GameObject target;
+    public Camera mainCam;
+    public float tiltSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +19,14 @@ public class LookAtX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(x.transform.position.y - transform.position.y, x.transform.position.x - transform.position.x) * Mathf.Rad2Deg + fineTuningConstant);
+        
+        if(active == true) {
+            float xPos = mainCam.WorldToScreenPoint(target.transform.position).x - mainCam.WorldToScreenPoint(main.transform.position).x;
+            float yPos = mainCam.WorldToScreenPoint(target.transform.position).y - mainCam.WorldToScreenPoint(main.transform.position).y;
+
+            float newAngle = Mathf.Atan2(yPos, xPos) * Mathf.Rad2Deg;
+        
+            main.transform.rotation = Quaternion.RotateTowards(main.transform.rotation, Quaternion.Euler(0, 0, newAngle - 90), tiltSpeed * Time.deltaTime);
+        }
     }
 }

@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainTankMovement : MonoBehaviour
+public class LookAtCamera : MonoBehaviour
 {
 
-    public GameObject main;
     public Vector3 mousePos;
     public float tiltSpeed;
     public Camera mainCam;
@@ -20,13 +19,14 @@ public class MainTankMovement : MonoBehaviour
     void Update()
     {
         mousePos = Input.mousePosition;
-        float xPos = mousePos.x - /*(Screen.width/2)*/ mainCam.WorldToScreenPoint(main.transform.position).x;
-        float yPos = mousePos.y - /*(Screen.height/2)*/ mainCam.WorldToScreenPoint(main.transform.position).y;
+        float xPos = mousePos.x - /*(Screen.width/2)*/ mainCam.WorldToScreenPoint(transform.position).x;
+        float yPos = mousePos.y - /*(Screen.height/2)*/ mainCam.WorldToScreenPoint(transform.position).y;
 
         float newAngle = Mathf.Atan2(yPos, xPos) * Mathf.Rad2Deg;
 
-        main.transform.rotation = Quaternion.RotateTowards(main.transform.rotation, Quaternion.Euler(0, 0, newAngle - 90), tiltSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, newAngle - 90), tiltSpeed * Time.deltaTime);
 
        // main.transform.eulerAngles = new Vector3(0, 0, newAngle-90);
     }
 }
+

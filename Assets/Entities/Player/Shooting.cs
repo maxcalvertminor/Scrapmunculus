@@ -5,12 +5,11 @@ using UnityEngine.UI;
 
 public class Shooting : MonoBehaviour
 {
-
-    private int ammoRight;
-    private int ammoLeft;
     private GameObject player;
-    public GameObject actuator_left;
-    public GameObject actuator_right;
+    public GameObject equipPointRight;
+    public GameObject equipPointLeft;
+    public GameObject actuatorRight;
+    public GameObject actuatorLeft;
     private GameObject weaponRight;
     private GameObject weaponLeft;
     private Weapon scriptRight;
@@ -25,8 +24,6 @@ public class Shooting : MonoBehaviour
     void Start()
     {
         player = gameObject;
-        ammoRight = 0;
-        ammoLeft = 0;
         hasWeaponRight = false;
         hasWeaponLeft = false;
         triggerNum = 0;
@@ -66,12 +63,13 @@ public class Shooting : MonoBehaviour
             {
                 // RIGHT PICKUP
                 weaponRight = coll.gameObject;
-                weaponRight.transform.SetParent(actuator_right.transform);
+                weaponRight.transform.SetParent(equipPointRight.transform);
                 OnTriggerExit2D(weaponRight.GetComponent<Collider2D>());
                 weaponRight.tag = "Player";
                 scriptRight = weaponRight.GetComponent<Weapon>();
-                scriptRight.attach(true, actuator_right);
-                ammoRight = scriptRight.getAmmo();
+                Debug.Log(scriptRight + " + " + equipPointRight);
+                Attach(scriptRight, equipPointRight);
+                actuatorRight.GetComponent<SpriteRenderer>().enabled = true;
 
                 /* ammoSprites.Capacity = scriptRight.getAmmo();
                  //Debug.Log(ammoSprites.Count);
@@ -94,15 +92,10 @@ public class Shooting : MonoBehaviour
                 weaponRight.tag = "Weapon";
                 OnTriggerEnter2D(weaponRight.GetComponent<Collider2D>());
                 scriptRight.setEquipped(false);
-                scriptRight.detach(actuator_right);
-                ammoRight = 0;
                 hasWeaponRight = false;
-                /*  for(int i = 0; i < scriptRight.getAmmo(); i++) {
-                      Destroy(ammoSprites[scriptRight.getAmmo() - i - 1]);
-                  }
-                  ammoSprites.Clear();  */
                 weaponRight = null;
                 scriptRight = null;
+                actuatorRight.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
         
@@ -111,12 +104,12 @@ public class Shooting : MonoBehaviour
             if(hasWeaponLeft == false && triggerNum > 0) {
                 // LEFT PICKUP
                 weaponLeft = coll.gameObject;
-                weaponLeft.transform.SetParent(actuator_left.transform);
+                weaponLeft.transform.SetParent(equipPointLeft.transform);
                 OnTriggerExit2D(weaponLeft.GetComponent<Collider2D>());
                 weaponLeft.tag = "Player";
                 scriptLeft = weaponLeft.GetComponent<Weapon>();
-                scriptLeft.attach(false, actuator_left);
-                ammoLeft = scriptLeft.getAmmo();
+                Attach(scriptLeft, equipPointLeft);
+                actuatorLeft.GetComponent<SpriteRenderer>().enabled = true;
 
               /*  ammoSprites.Capacity = scriptLeft.getAmmo();
                 //Debug.Log(ammoSprites.Count);
@@ -137,17 +130,20 @@ public class Shooting : MonoBehaviour
                 weaponLeft.tag = "Weapon";
                 OnTriggerEnter2D(weaponLeft.GetComponent<Collider2D>());
                 scriptLeft.setEquipped(false);
-                scriptLeft.detach(actuator_left);
-                ammoLeft = 0;
                 hasWeaponLeft = false;
-              /*  for(int i = 0; i < scriptLeft.getAmmo(); i++) {
-                    Destroy(ammoSprites[scriptLeft.getAmmo() - i - 1]);
-                }
-                ammoSprites.Clear();  */
                 weaponLeft = null;
                 scriptLeft = null;
+                actuatorLeft.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
+    }
+
+    public void Attach(Weapon weapon, GameObject equipPoint) {
+        weapon.transform.position = equipPoint.transform.position;
+        weapon.transform.position = equipPoint.transform.position;
+        weapon.transform.rotation = equipPoint.transform.rotation;
+        weapon.transform.localPosition = new Vector3 (0, weapon.y, 0);
+        //equipPoint.GetComponent<Arm_Actuator_Script>().attach(true);
     }
 
     void OnTriggerEnter2D(Collider2D other) {
