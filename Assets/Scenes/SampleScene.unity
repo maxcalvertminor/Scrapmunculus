@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70902747}
   - component: {fileID: 70902746}
+  - component: {fileID: 70902748}
   m_Layer: 6
   m_Name: Foot_Goliath (3)
   m_TagString: Untagged
@@ -210,6 +211,22 @@ Transform:
   - {fileID: 1872408992}
   m_Father: {fileID: 1952156329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &70902748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70902745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8604785644b75f439e484c2ffeb02b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootScript
+  homePoint: {x: 0.25, y: 0.25}
+  group: 0
+  initialPosition: {x: 0, y: 0, z: 0}
+  randomVariation: {x: 0, y: 0}
 --- !u!1 &78290565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2015,6 +2032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 561517294}
   - component: {fileID: 561517293}
+  - component: {fileID: 561517295}
   m_Layer: 6
   m_Name: Foot_Goliath (1)
   m_TagString: Untagged
@@ -2096,6 +2114,22 @@ Transform:
   - {fileID: 728996451}
   m_Father: {fileID: 1952156329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &561517295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561517292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8604785644b75f439e484c2ffeb02b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootScript
+  homePoint: {x: -0.25, y: -0.25}
+  group: 0
+  initialPosition: {x: 0, y: 0, z: 0}
+  randomVariation: {x: 0, y: 0}
 --- !u!1 &608296859
 GameObject:
   m_ObjectHideFlags: 0
@@ -2324,6 +2358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 701861183}
   - component: {fileID: 701861182}
+  - component: {fileID: 701861184}
   m_Layer: 6
   m_Name: Foot_Goliath (4)
   m_TagString: Untagged
@@ -2405,6 +2440,22 @@ Transform:
   - {fileID: 1925428028}
   m_Father: {fileID: 1952156329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &701861184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701861181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8604785644b75f439e484c2ffeb02b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootScript
+  homePoint: {x: -0.25, y: 0.25}
+  group: 1
+  initialPosition: {x: 0, y: 0, z: 0}
+  randomVariation: {x: 0, y: 0}
 --- !u!1 &720650981
 GameObject:
   m_ObjectHideFlags: 0
@@ -3297,6 +3348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1056900226}
   - component: {fileID: 1056900225}
+  - component: {fileID: 1056900227}
   m_Layer: 6
   m_Name: Foot_Goliath (2)
   m_TagString: Untagged
@@ -3378,6 +3430,22 @@ Transform:
   - {fileID: 299895814}
   m_Father: {fileID: 1952156329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1056900227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056900224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8604785644b75f439e484c2ffeb02b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootScript
+  homePoint: {x: 0.25, y: -0.25}
+  group: 1
+  initialPosition: {x: 0, y: 0, z: 0}
+  randomVariation: {x: 0, y: 0}
 --- !u!1 &1077125195
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,22 +3939,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   main: {fileID: 430934624}
-  movement_obj: {fileID: 1212058936}
-  feet:
-  - {fileID: 561517292}
-  - {fileID: 1056900224}
-  - {fileID: 70902745}
-  - {fileID: 701861181}
-  footHomePoint:
-  - {x: -0.25, y: -0.25, z: 0}
-  - {x: 0.25, y: -0.25, z: 0}
-  - {x: 0.25, y: 0.25, z: 0}
-  - {x: -0.25, y: 0.25, z: 0}
+  listOFeet:
+  - {fileID: 561517295}
+  - {fileID: 1056900227}
+  - {fileID: 70902748}
+  - {fileID: 701861184}
+  numberOfGroups: 2
+  randomMultiplier: 0.8
   seconds_between_steps: 0.01
-  step_speed: 4.5
-  deflection: 2
-  constant: 0.05
-  tolerance: 0
+  step_speed: 2
+  howFarToStepForward: 0.3
 --- !u!212 &1212058941
 SpriteRenderer:
   m_ObjectHideFlags: 0
