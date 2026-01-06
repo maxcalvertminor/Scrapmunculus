@@ -9,11 +9,11 @@ public class Retreat : Behavior
     public float length;
     public GameObject target, subject;
     
-    public Retreat(EnemyBehavior s) : base(s) {
+    public Retreat(EntityBehavior s) : base(s) {
         script = s;
         length = 10;
         subject = script.gameObject;
-        target = script.target;
+        //target = script.targetingSystem.target;
     }
 
     public override void Accumulate()
@@ -24,9 +24,9 @@ public class Retreat : Behavior
     public override IEnumerator Queue()
     {
         script.queued = true;
-        Vector2 point = subject.transform.position - (target.transform.position - subject.transform.position).normalized * length;
+        Vector2 point = subject.transform.position - (script.targetingSystem.target.transform.position - subject.transform.position).normalized * length;
 
-        yield return script.FollowPath(script.transform.position, point, (int)script.distance);
+        yield return script.basicMovement.FollowPath(script.transform.position, point, (int)script.distance);
 
         script.queued = false;
         priority = 0;

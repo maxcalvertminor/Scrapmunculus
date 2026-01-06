@@ -61,7 +61,7 @@ public class Projectiles : MonoBehaviour
                 gameObject.SetActive(false);
                 break;
             case "Enemy":
-                collision.gameObject.GetComponent<EnemyBehavior>().TakeDamage(damage, direction);
+                collision.gameObject.GetComponent<Health>().TakeDamage(damage);
                 gameObject.SetActive(false);
                 break;
         }
@@ -69,7 +69,7 @@ public class Projectiles : MonoBehaviour
 
     void OnDisable() {
         if(hit && hit.transform.tag == "EnemyProximityTrigger") {
-            hit.transform.GetComponent<EnemyBehavior>().raycastsInCollider--;
+            hit.transform.GetComponent<EntityBehavior>().raycastsInCollider--;
 //            Debug.Log(hit.transform.GetComponent<EnemyBehavior>().raycastsInCollider + ", RiC");
         }
     }

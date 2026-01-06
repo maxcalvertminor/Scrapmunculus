@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Dash : Behavior
 {
-    public Dash(EnemyBehavior s) : base(s) {
+    public Dash(EntityBehavior s) : base(s) {
         script = s;
     }
 

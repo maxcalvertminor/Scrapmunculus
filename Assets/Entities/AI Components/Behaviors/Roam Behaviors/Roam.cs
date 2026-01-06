@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Roam : Behavior
 {
-    public Roam(EnemyBehavior s) : base(s) {
+    public Roam(EntityBehavior s) : base(s) {
         script = s;
     }
 
@@ -16,7 +16,7 @@ public class Roam : Behavior
     public override IEnumerator Queue()
     {
         script.queued = true;
-        yield return script.FollowPath(script.transform.position, script.roamPoint, (int)script.distance, true);
+        yield return script.basicMovement.FollowPath(script.transform.position, script.roamPoint, (int)script.distance, true);
         script.queued = false;
         priority = 0;
         yield break;

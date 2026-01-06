@@ -29,9 +29,6 @@ public class UnderbodyScriptMfoot : MonoBehaviour
             foreach(Foot foot in listOFeet) {
                 if(foot.group == i) footGroups[i].Add(foot); 
             }
-            for(int ii = 0; ii < footGroups[i].Count; ii++) {
-                Debug.Log(footGroups[i][ii]);
-            }
         }
     }
 
@@ -45,13 +42,11 @@ public class UnderbodyScriptMfoot : MonoBehaviour
         }
 
         if(moving && !is_stepping) {
-            Debug.Log("Moving and not already stepping");
             StartCoroutine(Step(footGroups[groupIterator]));
         }
     }
 
     IEnumerator Step(List<Foot> feetToMove) {
-        Debug.Log("Stepping");
         is_stepping = true;
         float fraction = 0;
         foreach(Foot foot in feetToMove) {
@@ -66,7 +61,6 @@ public class UnderbodyScriptMfoot : MonoBehaviour
         }
 
         yield return new WaitForSeconds(seconds_between_steps);
-        Debug.Log("Waited");
         groupIterator++;
         if(groupIterator == footGroups.Count) {
             groupIterator = 0;

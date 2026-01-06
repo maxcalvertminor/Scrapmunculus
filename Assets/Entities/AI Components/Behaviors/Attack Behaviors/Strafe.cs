@@ -9,9 +9,9 @@ public class Strafe : Behavior
     public int length;
     public Collider2D col;
 
-    public Strafe(EnemyBehavior s) : base(s) {
+    public Strafe(EntityBehavior s) : base(s) {
         script = s;
-        target = script.target;
+        //target = script.targetingSystem.target;
         subject = script.gameObject;
         col = subject.transform.GetChild(0).GetComponent<Collider2D>();
     }
@@ -24,14 +24,14 @@ public class Strafe : Behavior
     public override IEnumerator Queue()
     {
         script.queued = true;
-        Vector2 point = new(target.transform.position.x - subject.transform.position.x, target.transform.position.y - subject.transform.position.y);
+        Vector2 point = new(script.targetingSystem.target.transform.position.x - subject.transform.position.x, script.targetingSystem.target.transform.position.y - subject.transform.position.y);
         if(Random.value > 0.5) {
             point = new Vector2(-point.y, point.x).normalized * script.distance;
         } else {
             point = new Vector2(point.y, -point.x).normalized * script.distance;
         }
 
-        yield return script.FollowPath(script.transform.position, script.transform.position + (Vector3)point, (int)script.distance);
+        yield return script.basicMovement.FollowPath(script.transform.position, script.transform.position + (Vector3)point, (int)script.distance);
 
         script.queued = false;
         priority = 0;

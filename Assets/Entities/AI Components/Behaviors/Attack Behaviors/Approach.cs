@@ -8,7 +8,7 @@ public class Approach : Behavior
     public bool hiding;
     public Vector2 targetPoint;
 
-    public Approach(EnemyBehavior s) : base(s) {
+    public Approach(EntityBehavior s) : base(s) {
         script = s;
         hiding = false;
     }
@@ -24,7 +24,7 @@ public class Approach : Behavior
         /*Vector2 dir = (target.transform.position - script.transform.position).normalized;
         targetPoint = (Vector2)script.transform.position + dir * distance;*/
 
-        yield return script.FollowPath(script.transform.position, script.target.transform.position, (int)script.distance);
+        yield return script.basicMovement.FollowPath(script.transform.position, script.targetingSystem.target.transform.position, (int)script.distance);
         
         script.queued = false;
         priority = 0;

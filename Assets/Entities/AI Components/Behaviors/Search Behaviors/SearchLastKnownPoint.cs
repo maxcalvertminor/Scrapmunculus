@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SearchLastKnownPoint : Behavior
 {
-    public SearchLastKnownPoint(EnemyBehavior s) : base(s) {
+    public SearchLastKnownPoint(EntityBehavior s) : base(s) {
         script = s;
         priority = 10;
     }
@@ -17,10 +17,10 @@ public class SearchLastKnownPoint : Behavior
     public override IEnumerator Queue()
     {
         script.queued = true;
-        yield return script.FollowPath(script.transform.position, script.targetLastKnownPosition, (int)script.distance, true);
-        Vector2 dir = script.targetLastKnownPosition - (Vector2)script.transform.position;
+        yield return script.basicMovement.FollowPath(script.transform.position, script.targetingSystem.targetLastKnownPosition, (int)script.distance, true);
+        Vector2 dir = script.targetingSystem.targetLastKnownPosition - (Vector2)script.transform.position;
         Debug.Log(dir);
-        script.targetHeadDirection = script.targetLastKnownPosition - (Vector2)script.transform.position;
+        script.basicMovement.targetHeadDirection = script.targetingSystem.targetLastKnownPosition - (Vector2)script.transform.position;
         script.queued = false;
         priority = 0;
         yield break;

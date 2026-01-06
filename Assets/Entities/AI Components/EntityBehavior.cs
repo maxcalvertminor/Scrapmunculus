@@ -3,34 +3,34 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class EnemyBehavior : MonoBehaviour
+public class EntityBehavior : MonoBehaviour
 {
+    public BasicMovement basicMovement;
     public float health;
     public Weapon weapon1, weapon2;
-    public GameObject target, head;    
+    public GameObject head;    
     public LookAtX lookAtPlayerScript;
     public Pathfinding path;
     public EntityWeapons entityWeapons;
 
-    public GameObject pathfindingTracking;
+    //public GameObject pathfindingTracking;
 
     public bool queued;
     public List<Behavior> behaviors; 
-    public State state;
 
     public float distance;
 
     public float aggression, nervousness, perception;
-    public float tolerance;
+    //public float tolerance;
 
     public int bulletsInCollider;
     public int raycastsInCollider;
 
     public List<Behavior> attackBehaviors, roamBehaviors, searchBehaviors;
 
-    public float targetSpeed, fraction, dashSpeed, walkSpeed, dashCooldownTime, dashStartTimer, turnSpeed, weaponPatrolTime, weaponRotateSpeed;
-    private float speed, nSpeed, dashCooldown, dashTimer;
-    public Vector2 direction, targetDirection;
+    //public float targetSpeed, fraction, dashSpeed, walkSpeed, dashCooldownTime, dashStartTimer, turnSpeed, weaponPatrolTime, weaponRotateSpeed;
+    //private float speed, nSpeed, dashCooldown, dashTimer;
+    //public Vector2 direction, targetDirection;
 
     public Vector2 point;
 
@@ -40,15 +40,15 @@ public class EnemyBehavior : MonoBehaviour
 
     public Vector2 roamPoint, targetLastKnownPosition;
 
-    public Vector2 targetHeadDirection;
+    //public Vector2 targetHeadDirection;
     public float tiltSpeed;
-    private VisionCone visionCone;
+    public EntityTargeting targetingSystem;
 
-    public List<string> hostileTags;
-    public List<GameObject> hostileEntities;
+    //public List<string> hostileTags;
+    //public List<GameObject> hostileEntities;
 
-    public float searchActions, searchActionsNumber;
-    public bool searchFlag;
+    //public float searchActions, searchActionsNumber;
+    //public bool searchFlag;
 
     // Start is called before the first frame update
     void Start()
@@ -57,21 +57,26 @@ public class EnemyBehavior : MonoBehaviour
         roamBehaviors = new List<Behavior> { new PickRoamPoint(this), new Roam(this), new LookAround(this), new Pause(this, 4) };
         searchBehaviors = new List<Behavior> { new SearchLastKnownPoint(this), new LookAround(this)};
         behaviors = new List<Behavior>();
-        lookAtPlayerScript = this.gameObject.GetComponent<LookAtX>();
+        lookAtPlayerScript = gameObject.GetComponent<LookAtX>();
         queued = false;
-        SwitchState(State.Roaming);
+        //SwitchState(State.Roaming);
         InvokeRepeating("SlowUpdate", 0f, 0.2f);
-        InvokeRepeating("WeaponPatrolling", 0f, 1f);
-        direction = new(0,0);
+        //InvokeRepeating("WeaponPatrolling", 0f, 1f);
+        //direction = new(0,0);
         damageEvents = new();
-        visionCone = GetComponentInChildren<VisionCone>();
-        target = null;
+        targetingSystem = GetComponentInChildren<EntityTargeting>();
+        //target = null;
+    }
+
+    void OnEnable() {
+        targetingSystem.stateChange += OnStateChange;
+        //targetingSystem.stateChange +=
     }
 
     // Update is called once per frame
     void Update()
     {
-        pathfindingTracking.transform.position = targetLastKnownPosition;
+        //pathfindingTracking.transform.position = targetLastKnownPosition;
         // Behavior Queuing
         if(!queued) {
             Behavior priority = behaviors[0];
@@ -86,7 +91,7 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         // Movement and direction
-        if(direction != targetDirection) {
+       /* if(direction != targetDirection) {
             direction = Vector2.MoveTowards(direction, targetDirection, Time.deltaTime * turnSpeed);
         }
 
@@ -115,17 +120,21 @@ public class EnemyBehavior : MonoBehaviour
             speed = targetSpeed;
         }
 
-        gameObject.GetComponent<Rigidbody2D>().linearVelocity = direction * speed;
+        gameObject.GetComponent<Rigidbody2D>().linearVelocity = direction * speed; */
 
-        // Head direction
-        if(state == State.Attacking) {
-            targetHeadDirection = target.transform.position - transform.position;
-        }
-        head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, head.transform.rotation * Quaternion.FromToRotation(head.transform.up, targetHeadDirection), tiltSpeed * Time.deltaTime);
+        /* //Head direction and weapon rotating
+        if(targetingSystem.state == EntityTargeting.State.Attacking) {
+            targetHeadDirection = targetingSystem.target.transform.position - transform.position;
+        } else if(targetingSystem.state == EntityTargeting.State.Roaming) {
+            foreach(EquipPoint e in entityWeapons.equipPoints) {
+                //if(e.rotating == false && e.equipped == true) StartCoroutine(e.EquipPointPassiveRotation(weaponRotateSpeed, weaponPatrolTime));
+            }
+        } */
+        //head.transform.rotation = Quaternion.RotateTowards(head.transform.rotation, head.transform.rotation * Quaternion.FromToRotation(head.transform.up, targetHeadDirection), tiltSpeed * Time.deltaTime);
 
         // Targeting enemies and state switching
-        if(visionCone.visibleTargets.Count >= 1) {
-            foreach(GameObject possibleTarget in visionCone.visibleTargets) {
+        /*if(targetingSystem.visibleTargets.Count >= 1) {
+            foreach(GameObject possibleTarget in targetingSystem.visibleTargets) {
                 if(target == null) {
                     target = possibleTarget;
                     targetLastKnownPosition = target.transform.position;
@@ -152,10 +161,10 @@ public class EnemyBehavior : MonoBehaviour
             SwitchState(State.Searching);
         } else {
             SwitchState(State.Roaming);
-        }
+        } */
     }
 
-    public void Dash() {
+    /*public void Dash() {
         Vector2 optDirection = Vector2.zero;
         foreach(DamageEvent eve in damageEvents) {
             optDirection += eve.direction;
@@ -174,34 +183,29 @@ public class EnemyBehavior : MonoBehaviour
             direction = newDirection.normalized;
             targetDirection = newDirection.normalized;
         }
-    }
+    }*/
 
-    public void SwitchState(State s) {
-        if(state != s) {
-            state = s;
-            StopAllCoroutines();
-            queued = false;
-            targetDirection = Vector2.zero;
-            switch(state) {
-                case State.Inactive:
-                    break;
-                case State.Roaming:
-                    behaviors.Clear();
-                    behaviors.AddRange(roamBehaviors);
-                    StartCoroutine(behaviors[0].Queue());
-                    behaviors[0].CheckAction();
-                    break;
-                case State.Attacking:
-                    behaviors.Clear();
-                    behaviors.AddRange(attackBehaviors);
-                    break;
-                case State.Searching:
-                    behaviors.Clear();
-                    behaviors.AddRange(searchBehaviors);
-                    break;
-            }
+    public void OnStateChange(EntityTargeting.State state) {
+        StopAllCoroutines();
+        queued = false;
+        switch(state) {
+            case EntityTargeting.State.Inactive:
+                break;
+            case EntityTargeting.State.Roaming:
+                behaviors.Clear();
+                behaviors.AddRange(roamBehaviors);
+                StartCoroutine(behaviors[0].Queue());
+                behaviors[0].CheckAction();
+                break;
+            case EntityTargeting.State.Attacking:
+                behaviors.Clear();
+                behaviors.AddRange(attackBehaviors);
+                break;
+            case EntityTargeting.State.Searching:
+                behaviors.Clear();
+                behaviors.AddRange(searchBehaviors);
+                break;
         }
-        
     }
 
     public void SlowUpdate() {
@@ -215,42 +219,32 @@ public class EnemyBehavior : MonoBehaviour
         foreach(DamageEvent dEvent in damageEvents) {
             dps += dEvent.damage;
         }
-        if(dps / health * 100 >= dpsThreshold && dashCooldown <= 0) {
-            Dash();
-        }
+        //if(dps / health * 100 >= dpsThreshold && dashCooldown <= 0) {
+            //Dash();
+        //}
     }
 
-    public enum State {
-        Pool,
-        Inactive,
-        Stationary,
-        Roaming,
-        Attacking,
-        Searching,
-        Dead
-    }
-
-    public IEnumerator FollowPath(Vector3 startPos, Vector3 targetPos) {
+    /*public IEnumerator FollowPath(Vector3 startPos, Vector3 targetPos) {
         path.Find(startPos, targetPos);
         foreach(Node n in path.path) {
             //Debug.Log(n.worldPosition);
             yield return StartCoroutine(GoToPoint(n.worldPosition));
             //Debug.Log("loop finished");
         }
-    }
+    } */
 
-    public IEnumerator FollowPath(Vector3 startPos, Vector3 targetPos, int stepLimit, bool lookInDirection = false) {
+    /*public IEnumerator FollowPath(Vector3 startPos, Vector3 targetPos, int stepLimit, bool lookInDirection = false) {
         point = targetPos;
         if(!path.grid.NodeFromWorldPoint(targetPos).walkable) {targetPos = path.grid.NearestNode(path.grid.NodeFromWorldPoint(targetPos)).worldPosition;}
         path.Find(startPos, targetPos);
         if(stepLimit > -1 && path.path.Count > stepLimit) {path.path.RemoveRange(stepLimit, path.path.Count - stepLimit);}
-        //Debug.Log(path.path.Count);
+        Debug.Log(path.path.Count);
         foreach(Node n in path.path) {
-            if(lookInDirection) targetHeadDirection = /*Mathf.Atan2(n.worldPosition.y - transform.position.y, n.worldPosition.x - transform.position.x) * Mathf.Rad2Deg*/ n.worldPosition - transform.position;
+            if(lookInDirection) targetHeadDirection =  n.worldPosition - transform.position;
             yield return StartCoroutine(GoToPoint(n.worldPosition));
         }
-        //direction /= 2;
-    }
+        direction /= 2;
+    } 
 
     public IEnumerator GoToPoint(Vector3 point) {
         while(Vector3.Distance(transform.position, point) > tolerance) {
@@ -260,39 +254,10 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         targetDirection = Vector2.zero;
-    }
-
-    public void TakeDamage(float damage, Vector2 direction){
-        health -= damage;
-        damageEvents.Enqueue(new DamageEvent(damage, Time.time, direction));
-        //Debug.Log("" + damage + ", " + direction + ", " + Time.time);
-        if(health <= 0) {
-            state = State.Dead;
-        }
-    }
+    } */
 
     void OnDrawGizmos() {
         Gizmos.DrawCube(point, Vector2.one);
         Gizmos.DrawCube(roamPoint, Vector2.one * 3);
-    }
-
-    void WeaponPatrolling() {
-        float waitTime;
-
-        /*foreach(EquipPoint e in entityWeapons.equipPoints) {
-            waitTime = Random.Range(0f, weaponPatrolTime);
-            StartCoroutine(RotateWeapon(e.weapon, weaponRotateSpeed, waitTime));
-        }*/
-
-    }
-
-    public IEnumerator RotateWeapon(GameObject weapon, float speed, float waitTime) {
-        yield return new WaitForSeconds(waitTime);
-        float rotateTime = weaponPatrolTime - waitTime;
-        for(float i = 0; i < rotateTime; i += Time.deltaTime) {
-            weapon.transform.RotateAround(weapon.transform.position, new(0,0,1), speed * Time.deltaTime);
-            yield return null;
-        }
-        yield break;
     }
 }

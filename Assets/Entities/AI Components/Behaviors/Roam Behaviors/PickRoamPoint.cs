@@ -6,14 +6,14 @@ using UnityEngine;
 public class PickRoamPoint : Behavior
 {
     GameObject subject;
-    public PickRoamPoint(EnemyBehavior s) : base(s) {
+    public PickRoamPoint(EntityBehavior s) : base(s) {
         script = s;
         subject = script.gameObject;
     }
 
     public override void Accumulate()
     {
-        priority += Vector2.Distance(subject.transform.position, script.roamPoint) > script.tolerance ? 0 : 10;
+        priority += Vector2.Distance(subject.transform.position, script.roamPoint) > script.basicMovement.tolerance ? 0 : 10;
     }
 
     public override IEnumerator Queue()

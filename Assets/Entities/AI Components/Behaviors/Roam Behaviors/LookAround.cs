@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LookAround : Behavior
 {
-    public LookAround(EnemyBehavior s) : base(s) {
+    public LookAround(EntityBehavior s) : base(s) {
         script = s;
     }
 
@@ -18,8 +18,8 @@ public class LookAround : Behavior
         script.queued = true;
         int loop = Random.Range(1, 4);
         for(int i = 0; i < loop; i++) {
-            script.targetHeadDirection += new Vector2(Random.Range(-script.targetHeadDirection.magnitude, script.targetHeadDirection.magnitude), Random.Range(-script.targetHeadDirection.magnitude, script.targetHeadDirection.magnitude));
-            while(script.head.transform.rotation != script.head.transform.rotation * Quaternion.FromToRotation(script.head.transform.up, script.targetHeadDirection)) {
+            script.basicMovement.targetHeadDirection += new Vector2(Random.Range(-script.basicMovement.targetHeadDirection.magnitude, script.basicMovement.targetHeadDirection.magnitude), Random.Range(-script.basicMovement.targetHeadDirection.magnitude, script.basicMovement.targetHeadDirection.magnitude));
+            while(script.head.transform.rotation != script.head.transform.rotation * Quaternion.FromToRotation(script.head.transform.up, script.basicMovement.targetHeadDirection)) {
                 yield return null;
             }
             yield return new WaitForSeconds(script.distance / 20 * Random.Range(1f, 3f));

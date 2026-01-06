@@ -18,15 +18,15 @@ public class ProximityColliderScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col) {
         if(col.tag == "Bullet") {
-            transform.parent.gameObject.GetComponent<EnemyBehavior>().bulletsInCollider++;
-            transform.parent.gameObject.GetComponent<EnemyBehavior>().damageEvents.Enqueue(new DamageEvent(col.GetComponent<Projectiles>().damage, Time.time, col.GetComponent<Projectiles>().direction));
+            transform.parent.gameObject.GetComponent<EntityBehavior>().bulletsInCollider++;
+            transform.parent.gameObject.GetComponent<EntityBehavior>().damageEvents.Enqueue(new DamageEvent(col.GetComponent<Projectiles>().damage, Time.time, col.GetComponent<Projectiles>().direction));
             //Debug.Log(transform.parent.gameObject.GetComponent<EnemyBehavior>().bulletsInCollider + ", BiC");
         }
     }
 
     void OnTriggerExit2D(Collider2D col) {
         if(col.tag == "Bullet") {
-            transform.parent.gameObject.GetComponent<EnemyBehavior>().bulletsInCollider--;
+            transform.parent.gameObject.GetComponent<EntityBehavior>().bulletsInCollider--;
             //Debug.Log(transform.parent.gameObject.GetComponent<EnemyBehavior>().bulletsInCollider + ", BiC");
         }
     }

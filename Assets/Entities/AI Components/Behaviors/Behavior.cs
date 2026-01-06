@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Behavior
 {
-    public EnemyBehavior script;
+    public EntityBehavior script;
     public float priority;
-    public Behavior(EnemyBehavior s) {
+    public Behavior(EntityBehavior s) {
         script = s;
     }
 
