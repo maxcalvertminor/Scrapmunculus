@@ -30,6 +30,10 @@ public class Shooting : MonoBehaviour
         triggerList = new List<GameObject>();
     }
 
+    void OnEnable() {
+        GetComponent<Health>().death += OnDeath;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -172,6 +176,10 @@ public class Shooting : MonoBehaviour
             triggerNum--;
             triggerList.Remove(other.gameObject);
         }
+    }
+
+    void OnDeath() {
+        enabled = false;
     }
 
     // && !other.gameObject.GetComponent<RevolverScript>().isEquipped() && !hasWeapon

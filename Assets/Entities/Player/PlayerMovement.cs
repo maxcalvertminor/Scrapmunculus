@@ -27,6 +27,10 @@ public class PlayerMovement : MonoBehaviour {
         dashing = false;
     }
 
+    void OnEnable() {
+        GetComponent<Health>().death += OnDeath;
+    }
+
     // Update is called once per frame
     void Update() {
         float xInput = Input.GetAxis("Horizontal");
@@ -67,7 +71,7 @@ public class PlayerMovement : MonoBehaviour {
             speed = targetSpeed;
         }
 
-        body.linearVelocity = direction * speed;
+        //body.linearVelocity = direction * speed;
 
         if(Input.GetButtonDown("Dash") && dashCooldown <= 0) {
             //StartCoroutine(Cooldown_Animation(cooldown_obj.GetComponent<SpriteRenderer>()));
@@ -96,6 +100,10 @@ public class PlayerMovement : MonoBehaviour {
     }*/
 
     void FixedUpdate() {
-        
+        body.linearVelocity = direction * speed;
+    }
+
+    void OnDeath() {
+        enabled = false;
     }
 }

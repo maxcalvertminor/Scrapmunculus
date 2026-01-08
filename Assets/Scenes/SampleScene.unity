@@ -237,6 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 76626019}
   - component: {fileID: 76626020}
+  - component: {fileID: 76626021}
   m_Layer: 0
   m_Name: EquipPoint 2
   m_TagString: Untagged
@@ -271,9 +272,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a376ef9f4ad3145a8bab2eeac514f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipPoint
+  weaponHolder: {fileID: 0}
   equipped: 0
   rotating: 0
   weapon: {fileID: 0}
+  weaponScript: {fileID: 0}
+  distanceToTarget: 0
+  minDistance: 0
+  maxDistance: 0
+  constantChance: -20
+  waitTimeAfterFailedShot: 0
+--- !u!114 &76626021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76626018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208256b254f84ad4a88b58776c884453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtX
+  active: 1
+  target: {fileID: 0}
+  mainCam: {fileID: 519420031}
+  tiltSpeed: 100
 --- !u!1 &78290565
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +413,7 @@ MonoBehaviour:
   firePoint: {x: 0, y: 0}
   reloadRate: 0
   ammoAddedOnSingleReloadAmount: 0
+  ammo: 0
   maxAmmo: 0
   equipped: 0
   x: 0.06
@@ -397,6 +422,7 @@ MonoBehaviour:
   reloading: 0
   bulletCount: 6
   bulletPoolSize: 0
+  accuracy: 0
 --- !u!61 &78290569
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -778,6 +804,7 @@ GameObject:
   m_Component:
   - component: {fileID: 122919463}
   - component: {fileID: 122919464}
+  - component: {fileID: 122919465}
   m_Layer: 0
   m_Name: EquipPoint 4
   m_TagString: Untagged
@@ -813,9 +840,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a376ef9f4ad3145a8bab2eeac514f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipPoint
+  weaponHolder: {fileID: 0}
   equipped: 1
   rotating: 0
-  weapon: {fileID: 0}
+  weapon: {fileID: 444536378}
+  weaponScript: {fileID: 637975350}
+  distanceToTarget: 0
+  minDistance: 0
+  maxDistance: 2
+  constantChance: 0
+  waitTimeAfterFailedShot: 0.2
+--- !u!114 &122919465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122919462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208256b254f84ad4a88b58776c884453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtX
+  active: 1
+  target: {fileID: 0}
+  mainCam: {fileID: 519420031}
+  tiltSpeed: 100
 --- !u!1 &149285101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1058,7 +1108,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
-  main: {fileID: 0}
   target: {fileID: 0}
   mainCam: {fileID: 0}
   tiltSpeed: 0
@@ -1252,6 +1301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400424160}
   - component: {fileID: 400424161}
+  - component: {fileID: 400424162}
   m_Layer: 0
   m_Name: EquipPoint 1
   m_TagString: Untagged
@@ -1286,9 +1336,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a376ef9f4ad3145a8bab2eeac514f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipPoint
+  weaponHolder: {fileID: 0}
   equipped: 0
   rotating: 0
   weapon: {fileID: 0}
+  weaponScript: {fileID: 0}
+  distanceToTarget: 0
+  minDistance: 0
+  maxDistance: 0
+  constantChance: -20
+  waitTimeAfterFailedShot: 0
+--- !u!114 &400424162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400424159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208256b254f84ad4a88b58776c884453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtX
+  active: 1
+  target: {fileID: 0}
+  mainCam: {fileID: 519420031}
+  tiltSpeed: 100
 --- !u!1 &427305170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,6 +1411,8 @@ GameObject:
   - component: {fileID: 430934633}
   - component: {fileID: 430934634}
   - component: {fileID: 430934635}
+  - component: {fileID: 430934637}
+  - component: {fileID: 430934636}
   m_Layer: 6
   m_Name: Goliath
   m_TagString: Enemy
@@ -1508,6 +1583,7 @@ MonoBehaviour:
   weaponRotateSpeed: 0
   weaponPatrolTime: 0
   passiveRotationOn: 0
+  targetingSystem: {fileID: 1873663971}
 --- !u!114 &430934635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1535,10 +1611,42 @@ MonoBehaviour:
   turnSpeed: 2
   weaponPatrolTime: 0
   weaponRotateSpeed: 0
-  headTiltSpeed: 90
+  headTiltSpeed: 45
   direction: {x: 0, y: 0}
   targetDirection: {x: 0, y: 0}
   targetHeadDirection: {x: 0, y: 0}
+--- !u!114 &430934636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430934624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932cfc98e57b0d48a673e4f58a5940d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHitPoints: 100
+  flatResistance: 0
+  percentResistance: 0
+  hitPoints: 100
+--- !u!114 &430934637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430934624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8daec92efd7a3d4a8f479d9f743163b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MultiTag
+  tags:
+  - damageable
+  - enemy
+  dangerLevel: 0
 --- !u!1 &434175893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,6 +1835,7 @@ MonoBehaviour:
   firePoint: {x: 0, y: 0}
   reloadRate: 0
   ammoAddedOnSingleReloadAmount: 0
+  ammo: 0
   maxAmmo: 0
   equipped: 0
   x: 0.035
@@ -1782,6 +1891,11 @@ MonoBehaviour:
   mousePos: {x: 0, y: 0, z: 0}
   tiltSpeed: 1080
   mainCam: {fileID: 519420031}
+--- !u!1 &444536378 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2327750181685480176, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+  m_PrefabInstance: {fileID: 1898259145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &462357238
 GameObject:
   m_ObjectHideFlags: 0
@@ -2055,6 +2169,7 @@ GameObject:
   - component: {fileID: 539530834}
   - component: {fileID: 539530835}
   - component: {fileID: 539530836}
+  - component: {fileID: 539530837}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -2197,8 +2312,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tags:
+  - damageable
   - targetToGoliath
+  - player
   dangerLevel: 1
+--- !u!114 &539530837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539530830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932cfc98e57b0d48a673e4f58a5940d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHitPoints: 100
+  flatResistance: 0
+  percentResistance: 0
+  hitPoints: 100
 --- !u!1 &561517292
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,6 +2619,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
   m_PrefabInstance: {fileID: 1898259145}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &637975350 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+  m_PrefabInstance: {fileID: 1898259145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444536378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a21cec76c39dc4da4e2e5d7c49ade9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &682395205
 GameObject:
   m_ObjectHideFlags: 0
@@ -2849,7 +2993,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
-  main: {fileID: 0}
   target: {fileID: 0}
   mainCam: {fileID: 0}
   tiltSpeed: 0
@@ -3780,7 +3923,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
-  main: {fileID: 0}
   target: {fileID: 0}
   mainCam: {fileID: 0}
   tiltSpeed: 0
@@ -4771,6 +4913,7 @@ MonoBehaviour:
   firePoint: {x: 0, y: 0}
   reloadRate: 0
   ammoAddedOnSingleReloadAmount: 0
+  ammo: 0
   maxAmmo: 0
   equipped: 0
   x: 0
@@ -5132,6 +5275,27 @@ Transform:
   - {fileID: 1702158292}
   m_Father: {fileID: 896300114}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1375713561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2327750181685480176, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+  m_PrefabInstance: {fileID: 1973936290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1375713562 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+  m_PrefabInstance: {fileID: 1973936290}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1375713563 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+  m_PrefabInstance: {fileID: 1973936290}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375713561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a21cec76c39dc4da4e2e5d7c49ade9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1385453410
 GameObject:
   m_ObjectHideFlags: 0
@@ -5189,6 +5353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1551530575}
   - component: {fileID: 1551530576}
+  - component: {fileID: 1551530577}
   m_Layer: 0
   m_Name: EquipPoint 3
   m_TagString: Untagged
@@ -5208,7 +5373,8 @@ Transform:
   m_LocalPosition: {x: 0.1347, y: 0.1058, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1375713562}
   m_Father: {fileID: 1873663970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1551530576
@@ -5223,9 +5389,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a376ef9f4ad3145a8bab2eeac514f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipPoint
-  equipped: 0
+  weaponHolder: {fileID: 0}
+  equipped: 1
   rotating: 0
-  weapon: {fileID: 0}
+  weapon: {fileID: 1375713561}
+  weaponScript: {fileID: 1375713563}
+  distanceToTarget: 0
+  minDistance: 0
+  maxDistance: 2
+  constantChance: 0
+  waitTimeAfterFailedShot: 0.2
+--- !u!114 &1551530577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551530574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208256b254f84ad4a88b58776c884453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LookAtX
+  active: 1
+  target: {fileID: 0}
+  mainCam: {fileID: 519420031}
+  tiltSpeed: 100
 --- !u!1 &1624594145
 GameObject:
   m_ObjectHideFlags: 0
@@ -5556,7 +5745,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
-  main: {fileID: 0}
   target: {fileID: 0}
   mainCam: {fileID: 0}
   tiltSpeed: 0
@@ -5732,7 +5920,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
-  main: {fileID: 0}
   target: {fileID: 0}
   mainCam: {fileID: 0}
   tiltSpeed: 0
@@ -6019,7 +6206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: range
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: speed
@@ -6043,7 +6230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: fireRate
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: mainTank
@@ -6199,7 +6386,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 0
-  main: {fileID: 0}
   target: {fileID: 0}
   mainCam: {fileID: 0}
   tiltSpeed: 0
@@ -6297,6 +6483,123 @@ Transform:
   - {fileID: 701861183}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1973936290
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1551530575}
+    m_Modifications:
+    - target: {fileID: 2327750181685480176, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_Name
+      value: Shotgun (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: speed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 539530830}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: spread
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: maxAmmo
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: mainTank
+      value: 
+      objectReference: {fileID: 1332366404}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: reloadRate
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: bulletCount
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: firePoint.y
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: bulletPoolSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: ammoAddedOnSingleReloadAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179781981699696845, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
 --- !u!1 &2040272964
 GameObject:
   m_ObjectHideFlags: 0
@@ -6593,7 +6896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: range
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: speed
@@ -6617,7 +6920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: fireRate
-      value: 0.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: mainTank

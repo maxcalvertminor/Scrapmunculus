@@ -5,7 +5,6 @@ using UnityEngine;
 public class LookAtX : MonoBehaviour
 {
     public bool active;
-    public GameObject main;
     public GameObject target;
     public Camera mainCam;
     public float tiltSpeed;
@@ -20,13 +19,13 @@ public class LookAtX : MonoBehaviour
     void Update()
     {
         
-        if(active == true) {
-            float xPos = mainCam.WorldToScreenPoint(target.transform.position).x - mainCam.WorldToScreenPoint(main.transform.position).x;
-            float yPos = mainCam.WorldToScreenPoint(target.transform.position).y - mainCam.WorldToScreenPoint(main.transform.position).y;
+        if(active == true && target != null) {
+            float xPos = target.transform.position.x - transform.position.x;
+            float yPos = target.transform.position.y - transform.position.y;
 
             float newAngle = Mathf.Atan2(yPos, xPos) * Mathf.Rad2Deg;
         
-            main.transform.rotation = Quaternion.RotateTowards(main.transform.rotation, Quaternion.Euler(0, 0, newAngle - 90), tiltSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, newAngle - 90), tiltSpeed * Time.deltaTime);
         }
     }
 }

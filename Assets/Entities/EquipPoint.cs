@@ -4,18 +4,44 @@ using System;
 
 public class EquipPoint : MonoBehaviour
 {
+    public EntityWeapons weaponHolder;
     public bool equipped, rotating;
     public GameObject weapon;
+    public Weapon weaponScript;
+    public float distanceToTarget, minDistance, maxDistance, constantChance, waitTimeAfterFailedShot;
+    float chanceTime /* YOWWW! */;
     void Start()
     {
         rotating = false;
+        if(weapon != null) weaponScript = weapon.GetComponent<Weapon>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // Distance to target
+        if(GetComponentInParent<EntityTargeting>().target != null) {
+            distanceToTarget = Vector2.Distance(transform.position, GetComponentInParent<EntityTargeting>().target.transform.position);
+        }
+
+        // Firing
+        if(weapon != null && transform.GetComponentInParent<EntityTargeting>().state == EntityTargeting.State.Attacking && weaponScript.ShouldFire() && chanceTime <= 0) {
+            float range = weaponScript.range * weaponScript.speed;
+            float chanceToShoot = Mathf.Clamp01(1 - (distanceToTarget - range*minDistance) / (range*maxDistance - range*minDistance)) + constantChance;
+            Debug.Log(chanceToShoot);
+            if(UnityEngine.Random.Range(0f, 1f) <= chanceToShoot) {
+                StartCoroutine(weaponScript.Fire());
+            } else {
+                chanceTime = waitTimeAfterFailedShot;
+            }
+        }
+
+        // Chance timer
+        if(chanceTime > 0) {
+            chanceTime -= Time.deltaTime;
+        }
     }
+
 
     public IEnumerator EquipPointPassiveRotation(float speed, float totalTime) {
         rotating = true;

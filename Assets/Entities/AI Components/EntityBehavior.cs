@@ -77,6 +77,7 @@ public class EntityBehavior : MonoBehaviour
     void Update()
     {
         //pathfindingTracking.transform.position = targetLastKnownPosition;
+        
         // Behavior Queuing
         if(!queued) {
             Behavior priority = behaviors[0];

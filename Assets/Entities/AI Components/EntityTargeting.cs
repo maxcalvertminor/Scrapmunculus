@@ -6,9 +6,7 @@ using UnityEngine;
 
 public class EntityTargeting : MonoBehaviour
 {
-    public event Action<GameObject> TargetEnteredVision;
     public event Action<State> stateChange;
-    public event Action TargetLeftVision;
     public List<GameObject> visibleTargets;
     public float sightRange, sightConeAngle;
     public State state;

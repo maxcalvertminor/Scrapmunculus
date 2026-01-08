@@ -20,7 +20,7 @@ public class PickRoamPoint : Behavior
     {
         script.queued = true;
         script.roamPoint = new(Random.Range(-script.path.grid.gridWorldSize.x/2, script.path.grid.gridWorldSize.x/2), Random.Range(-script.path.grid.gridWorldSize.y/2, script.path.grid.gridWorldSize.y/2));
-        Debug.Log(script.roamPoint);
+        //Debug.Log(script.roamPoint);
         script.queued = false;
         priority = 0;
         yield break;

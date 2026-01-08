@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     public List<GameObject> bulletPool;
     protected int poolIterator;
 
-    public int range;
+    public float range;
     public float damage;
     public float speed;
     public float spread;
@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
     public Vector2 firePoint;
     public float reloadRate;
     public int ammoAddedOnSingleReloadAmount;
-    protected int ammo;
+    [SerializeField] protected int ammo;
     public int maxAmmo;
     public bool equipped;
     public float x;
@@ -35,6 +35,7 @@ public class Weapon : MonoBehaviour
         Debug.Log(ammo + " + " + maxAmmo);
         ammo = maxAmmo;
         Debug.Log(ammo);
+        reloading = false;
     }
 
     // Update is called once per frame
@@ -71,6 +72,10 @@ public class Weapon : MonoBehaviour
 
     public bool CanFire() {
         return !firing && ammo > 0;
+    }
+
+    public bool ShouldFire() {
+        return !firing && ammo > 0 && !reloading;
     }
 
     public int getAmmo() {

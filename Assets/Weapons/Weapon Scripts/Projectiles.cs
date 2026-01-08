@@ -56,6 +56,11 @@ public class Projectiles : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D collision) {
+        MultiTag tags = collision.transform.GetComponent<MultiTag>();
+        if(tags != null && tags.HasTag("damageable")) {
+            collision.gameObject.gameObject.GetComponent<Health>().TakeDamage(damage);
+            gameObject.SetActive(false);
+        }
         switch(collision.gameObject.tag) {
             case "Walls":
                 gameObject.SetActive(false);
