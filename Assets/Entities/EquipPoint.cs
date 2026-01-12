@@ -36,6 +36,11 @@ public class EquipPoint : MonoBehaviour
             }
         }
 
+        if(weapon != null && weaponScript.ShouldReload()) {
+            Debug.Log("Reloading");
+            StartCoroutine(weaponScript.Reload());
+        }
+
         // Chance timer
         if(chanceTime > 0) {
             chanceTime -= Time.deltaTime;

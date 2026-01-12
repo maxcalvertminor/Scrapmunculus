@@ -2151,9 +2151,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 539530830}
-  mainCam: {fileID: 519420028}
+  mainCam: {fileID: 519420031}
   camera_distance: -20
   smoothTime: 0.3
+  mouseEffectConstant: 0.02
+  maxMouseDistanceAllowed: 200
   acceleration: {x: 0, y: 0}
 --- !u!1 &539530830
 GameObject:
@@ -6206,7 +6208,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: range
-      value: 10
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: speed
@@ -6226,7 +6228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: maxAmmo
-      value: 1000
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: fireRate
@@ -6238,7 +6240,7 @@ PrefabInstance:
       objectReference: {fileID: 1332366404}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: reloadRate
-      value: 0.0001
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: bulletCount
@@ -6497,7 +6499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: range
-      value: 10
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: speed
@@ -6517,7 +6519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: maxAmmo
-      value: 1000
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: fireRate
@@ -6529,7 +6531,7 @@ PrefabInstance:
       objectReference: {fileID: 1332366404}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: reloadRate
-      value: 0.0001
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: bulletCount
@@ -6896,7 +6898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: range
-      value: 0.25
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4927621467875755070, guid: c0b8dacfd72e44e468bcab230b2ee09d, type: 3}
       propertyPath: speed

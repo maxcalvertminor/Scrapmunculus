@@ -78,6 +78,10 @@ public class Weapon : MonoBehaviour
         return !firing && ammo > 0 && !reloading;
     }
 
+    public bool ShouldReload() {
+        return !firing && ammo == 0 && !reloading;
+    }
+
     public int getAmmo() {
         return ammo;
     }

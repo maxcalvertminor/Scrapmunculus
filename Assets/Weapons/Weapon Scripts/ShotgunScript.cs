@@ -35,9 +35,7 @@ public class ShotgunScript : Weapon
             bulletPool[poolIterator].GetComponent<Projectiles>().Setup((Vector2)transform.position + (Vector2)transform.up * firePoint.y + (Vector2)transform.right * firePoint.x, direction + (Vector2)transform.up * Random.Range(-spread, spread) + (Vector2)transform.right * Random.Range(-spread, spread), damage, range);
             poolIterator++;
         }
-        Debug.Log("Wait start");
         yield return new WaitForSeconds(fireRate);
-        Debug.Log("Wait end");
 //        Debug.Log("Ammo: " + (ammo-1));
         ammo--;
         firing = false;
